@@ -18,14 +18,23 @@ This serves as one of two offerings for IoT projects written in C. We would sugg
 
 ### [Azure IoT C SDK](https://github.com/Azure/azure-iot-sdk-c)
 
-- SDK manages features like connection retries, message queuing, and network IO operations.
-- Verified solution using 150KB flash.
+- Advantages
+  - SDK manages features like connection retries, message queuing, and network I/O operations.
+  - Choice of transport layers including MQTT, AMQP, and HTTP.
+  - Verified solution using 150KB flash.
+- Limitations
+  - Larger flash and memory footprint.
+  - Necessary PAL layer to onboard new networking stacks, hardware layers, etc.
 
 ### [Azure SDK for Embedded C](https://github.com/Azure/azure-sdk-for-c)
 
-- Minimal flash and memory footprint.
-- Flexibility given to user to incorporate preferred networking stack (MQTT, TLS, TCP/IP, etc).
-- Verified solutions using 50KB flash.
+- Features
+  - Minimal flash and memory footprint.
+  - Maximum flexibility given to user to incorporate preferred networking stack (MQTT, TLS, TCP/IP, etc).
+  - Verified solutions using 50KB flash.
+- Limitations
+  - The network I/O operations are handled by user application code not the SDK (IoT Hub connections, topic subscriptions, message sending).
+  - Network retries and reconnections are handled by user application code.
 
 ## Table of Contents
 - [Azure IoT C SDKs and Libraries](#azure-iot-c-sdks-and-libraries)
