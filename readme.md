@@ -32,7 +32,9 @@ This serves as one of two offerings for IoT projects written in C. We would sugg
   - Minimal flash and memory footprint.
   - Maximum flexibility given to user to incorporate preferred networking stack (MQTT, TLS, TCP/IP, etc).
   - Verified solutions using 50KB flash.
+  - No need for porting hardware or networking stacks at the SDK level.
 - Limitations
+  - Transport layer limited to MQTT.
   - The network I/O operations are handled by user application code not the SDK (IoT Hub connections, topic subscriptions, message sending).
   - Network retries and reconnections are handled by user application code.
 
