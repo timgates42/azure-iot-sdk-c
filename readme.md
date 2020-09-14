@@ -10,9 +10,11 @@ This repository contains the following:
 
 ## C SDK Options
 
-This serves as one of two offerings for IoT projects written in C. We would suggest that users consult the following feature descriptions to understand which SDK they should use.
+This serves as one of two offerings for IoT projects written in C. We suggest users consult the following feature descriptions to understand which SDK they should use.
 
 ### Programming Structure
+
+The programming paradigm for each SDK is different and should be carefully understood. In this SDK (Azure IoT C SDK), the SDK handles the networking stack operations. In the Azure SDK for Embedded C, the user application code handles the networking stack operations and calls SDK APIs for functionality such as topic subscriptions and message parsing.
 
 ![img](./doc/media/programmingdif.png)
 
