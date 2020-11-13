@@ -26,6 +26,13 @@
     fun:vfprintf
 }
 {
+    CurlMulti perform; not for checkin in current state
+    Memcheck:Cond
+	...
+    fun:curl_multi_perform
+    fun:curl_easy_perform
+}
+{
     DRD Conflicting store by thread in sprintf
     drd:ConflictingAccess
     ...
