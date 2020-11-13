@@ -207,12 +207,17 @@ static BLOB_RESULT InvokeUserCallbackAndSendBlobs(HTTPAPIEX_HANDLE httpApiExHand
                     BUFFER_delete(requestContent);
                 }
 
-                /*Codes_SRS_BLOB_02_026: [ Otherwise, if HTTP response code is >=300 then Blob_UploadMultipleBlocksFromSasUri shall succeed and return BLOB_OK. ]*/
-                if (result != BLOB_OK || *httpStatus >= 300)
+                if (result != BLOB_OK)
                 {
-                    LogError("unable to Blob_UploadBlock. Returned value=%d, httpStatus=%u", result, (unsigned int)*httpStatus);
+                    LogError("unable to Blob_UploadBlock. Returned value=%d", result);
                     isError = 1;
                 }
+                else if (*httpStatus >= 300)
+                {
+                    LogError("unable to Blob_UploadBlock. Returned httpStatus=%u", (unsigned int)*httpStatus);
+                    isError = 1;
+                }
+
             }
             blockID++;
         }
@@ -347,6 +352,18 @@ BLOB_RESULT Blob_UploadMultipleBlocksFromSasUri(const char* SASURI, IOTHUB_CLIEN
 
                 /*Codes_SRS_BLOB_02_018: [ Blob_UploadMultipleBlocksFromSasUri shall create a new HTTPAPI_EX_HANDLE by calling HTTPAPIEX_Create passing the hostname. ]*/
                 httpApiExHandle = HTTPAPIEX_Create(hostname);
+
+                // NOT for checkin.  We can't flip on extra options for customer as this will generate A TON of logs and they'd need a proper way to opt-in.
+                // Will contemplate adding (in a cleaner, with correct set option way) later.
+                if (httpApiExHandle != NULL)
+                {
+                    bool curlVerbose = true;
+                    if (HTTPAPIEX_SetOption(httpApiExHandle, OPTION_CURL_VERBOSE, &curlVerbose) == HTTPAPIEX_ERROR)
+                    {
+                        // Another reason not for checkin is this will false positive non-CURl stacks with a log error.
+                        LogError("Unable to set option for curl verbose");
+                    }
+                }
                 if (httpApiExHandle == NULL)
                 {
                     /*Codes_SRS_BLOB_02_007: [ If HTTPAPIEX_Create fails then Blob_UploadMultipleBlocksFromSasUri shall fail and return BLOB_ERROR. ]*/
