@@ -207,9 +207,15 @@ static BLOB_RESULT InvokeUserCallbackAndSendBlobs(HTTPAPIEX_HANDLE httpApiExHand
                     BUFFER_delete(requestContent);
                 }
 
+                /*Codes_SRS_BLOB_02_026: [ Otherwise, if HTTP response code is >=300 then Blob_UploadMultipleBlocksFromSasUri shall succeed and return BLOB_OK. ]*/
                 if (result != BLOB_OK)
                 {
                     LogError("unable to Blob_UploadBlock. Returned value=%d", result);
+                    isError = 1;
+                }
+                else if (*httpStatus >= 300)
+                {
+                    LogError("unable to Blob_UploadBlock. Returned httpStatus=%u", (unsigned int)*httpStatus);
                     isError = 1;
                 }
                 else if (*httpStatus >= 300)
